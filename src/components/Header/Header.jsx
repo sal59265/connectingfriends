@@ -10,21 +10,19 @@ const Header = ({setCoordinates, friends, setFriends}) => {
   const classes = useStyles();
   const [autocomplete, setAutocomplete ] = useState(null);
 
-  const onLoad = (autocomplete) => setAutocomplete(autocomplete) 
+  const onLoad = (autocomplete) => setAutocomplete(autocomplete); 
 
   const onPlaceChanged = () => {
-    const lat = autocomplete.getPlace().geometry.location.lat();
-    const lng = autocomplete.getPlace().geometry.location.lng();
+    let lat = autocomplete.getPlace().geometry.location.lat();
+    let lng = autocomplete.getPlace().geometry.location.lng();
+    if(friends) {
+      lat += 20;
+      lng += 20;
+    }
 
     setCoordinates({lat,lng});
     console.log({lat, lng})
   }
-  // const onPlaceChangedFriends = () => {
-  //   const lat1 = autocomplete.getPlace().geometry.location.lat();
-  //   const lng1 = autocomplete.getPlace().geometry.location.lat();
-    
-  //   setCoordinates({})
-  // }
   const toggle = () => {
     setFriends(!friends);
   }
@@ -35,18 +33,21 @@ const Header = ({setCoordinates, friends, setFriends}) => {
         <Typography variant="h5" className={classes.title}>
           Connecting Friends
         </Typography>
-        {/* <Typography variant="h5" className={classes.title}>
+        <Typography variant="h5" className={classes.title}>
           {friends ? <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
             <InputBase placeholder='Search...' classes={{root: classes.inputRoot, input: classes.inputInput}}/>
+            <GroupIcon 
+            onClick={toggle}
+          />
           </div>
         </Autocomplete>: (<GroupIcon 
             onClick={toggle}
           />)}
-        </Typography> */}
+        </Typography>
         <Box display="flex">
         <Typography variant="h6" className={classes.title}>
           Explore New Places
